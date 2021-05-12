@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import axios from 'axios';
+
+export default class UserData extends React.Component {
+  state = {
+    Users: []
+  }
+  async GetUserData() {
+    const { data } = await axios.get(`http://localhost:3000/GetUserData/0/5`)
+    console.log(data);
+    this.setState({ Users: data.UserData })
+  }
+
+  componentDidMount() {
+    this.GetUserData()
+
+
+  }
+
+  render() {
+
+    if (this.state.Users?.UserData) {
+
+    }
+    return (
+      <ul>
+        {this.state.Users.map(person => <li>{`Name: ${person.name}----UserName: ${person.username}`}</li>)}
+      </ul>
+    )
+  }
 }
 
-export default App;
